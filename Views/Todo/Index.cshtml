@@ -1,0 +1,49 @@
+﻿@model IEnumerable<TodoItem>
+
+<h2>Список дел</h2>
+<a asp-action="Create" class="btn btn-primary mb-3">Добавить элемент</a>
+
+<!-- Сортировка -->
+<div class="mb-3">
+    <a asp-action="Index" asp-route-sortOrder="date_asc" class="btn btn-link">Сортировать по дате ↑</a>
+    <a asp-action="Index" asp-route-sortOrder="date_desc" class="btn btn-link">Сортировать по дате ↓</a>
+</div>
+
+<!-- Фильтрация -->
+<div class="mb-3">
+    <form method="get">
+        <label for="statusFilter">Фильтр по статусу:</label>
+        <select id="statusFilter" name="statusFilter" class="form-select" onchange="this.form.submit()">
+            <option value="">Все</option>
+            <option value="Not Started">Not Started</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Completed">Completed</option>
+        </select>
+    </form>
+</div>
+
+<!-- Таблица -->
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Название</th>
+            <th>Дата выполнения</th>
+            <th>Статус</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+                <tr>
+                    <td>@item.Title</td>
+                    <td>@item.DueDate.ToShortDateString()</td>
+                    <td>@item.Status</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Редактировать</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Удалить</a>
+                    </td>
+                </tr>
+        }
+    </tbody>
+</table>
